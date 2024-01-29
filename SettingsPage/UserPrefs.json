@@ -1,0 +1,22 @@
+{
+  "filePaths": {
+    "cascade": "/home/admin/Desktop/IoT_Project/Face-Recognition-using-Raspberry-Pi/haarcascade_frontalface_default.xml",
+    "trainer": "/home/admin/Desktop/IoT_Project/Face-Recognition-using-Raspberry-Pi/trainer/trainer.yml",
+    "snapshotFolder": "/home/admin/Desktop/IoT_Project/Face-Recognition-using-Raspberry-Pi/snapshots/"
+  },
+  "mqttSettings": {
+    "broker": "broker.hivemq.com",
+    "port": 1883,
+    "topic": "SmartNation"
+  },
+  "ftpSettings": {
+    "host": "192.168.1.2",
+    "username": "raspberry",
+    "password": "M3dellin123"
+  },
+  "rtspSettings": {
+    "address": "192.168.1.3:554",
+    "user": "admin",
+    "password": "#Strongether1"
+  }
+}
