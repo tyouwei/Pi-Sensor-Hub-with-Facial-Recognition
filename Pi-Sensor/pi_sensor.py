@@ -17,13 +17,14 @@ class PiSensor:
         Timer(300,self.start_heartbeat_data_routine,[]).start()
         
         payload = {
+            "temperature" : self.sense.get_temperature_from_humidity(),
             "humidity" : self.sense.get_humidity(),
+            "bearing" : self.sense.get_compass(),
             "pressure" : self.sense.get_pressure(),
-            "compass" : self.sense.get_compass(),
             "gyroscope" : self.sense.get_gyroscope(),
             "accelerometer" : self.sense.get_accelerometer()
         }
-        
+        print(self.sense.get_gyroscope())
         # Publish MQTT
         self.mqtt_client.publish_json(payload)
   

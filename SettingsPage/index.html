@@ -28,21 +28,6 @@
 
         <label>Port:</label>
         <textarea id="mqttPort" rows="1" cols="10"></textarea><br>
-
-        <label>Topic:</label>
-        <textarea id="mqttTopic" rows="2" cols="50"></textarea><br>
-    </div>
-
-    <div>
-        <h2>FTP Settings</h2>
-        <label>Host:</label>
-        <textarea id="ftpHost" rows="2" cols="50"></textarea><br>
-
-        <label>Username:</label>
-        <textarea id="ftpUsername" rows="2" cols="50"></textarea><br>
-
-        <label>Password:</label>
-        <textarea id="ftpPassword" rows="2" cols="50"></textarea><br>
     </div>
 
     <div>
@@ -75,11 +60,6 @@
                 
                 document.getElementById('mqttBroker').value = data.mqttSettings.broker;
                 document.getElementById('mqttPort').value = data.mqttSettings.port;
-                document.getElementById('mqttTopic').value = data.mqttSettings.topic;
-                
-                document.getElementById('ftpHost').value = data.ftpSettings.host;
-                document.getElementById('ftpUsername').value = data.ftpSettings.username;
-                document.getElementById('ftpPassword').value = data.ftpSettings.password;
                 
                 document.getElementById('rtspAddress').value = data.rtspSettings.address;
                 document.getElementById('rtspUser').value = data.rtspSettings.user;
@@ -100,12 +80,6 @@
                 mqttSettings: {
                     broker: document.getElementById('mqttBroker').value,
                     port: parseInt(document.getElementById('mqttPort').value),
-                    topic: document.getElementById('mqttTopic').value
-                },
-                ftpSettings: {
-                    host: document.getElementById('ftpHost').value,
-                    username: document.getElementById('ftpUsername').value,
-                    password: document.getElementById('ftpPassword').value
                 },
                 rtspSettings: {
                     address: document.getElementById('rtspAddress').value,

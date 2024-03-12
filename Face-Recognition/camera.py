@@ -1,14 +1,18 @@
 import cv2
 import json
+import time
 from urllib.parse import quote
 
 class Camera:
     def __init__(self):
+        self.desired_width = 1280  # Increase width for higher resolution
+        self.desired_height = int(self.desired_width * 9 / 16)  # Calculate height for 16:9 aspect ratio
         self.connect()
         
+    # Designed to be a blocking function because app serves no purpose without an rtsp connection
     def connect(self):
         # Specify the path to your JSON file
-        json_file_path = '/home/admin/Desktop/IoT_Project/SettingsPage/UserPrefs.json'
+        json_file_path = '/home/admin/Pi-Sensor-Hub-with-Facial-Recognition/SettingsPage/UserPrefs.json'
 
         while True:
             try:
@@ -41,28 +45,36 @@ class Camera:
     def release(self):
         self.cam.release()
 
-    def record_video(self, duration, file_path):
+    def record_video(self, duration, file_path, first_frame_path):
         if not (self.is_connection_active()):
             self.reconnect()
             return
         
         # Define the codec and create a VideoWriter object
-        fourcc = cv2.VideoWriter_fourcc(*'XVID') 
-        out = cv2.VideoWriter(file_path, fourcc, 10.0, (640, 480))
-
+        fourcc = cv2.VideoWriter_fourcc(*'avc1')
+        #fourcc = cv2.VideoWriter_fourcc(*'XVID')  
+        out = cv2.VideoWriter(file_path, fourcc, 10.0, (self.desired_width, self.desired_height))
+        
         # Get current time
         start_time = cv2.getTickCount()
-
+        
+        first_run = True #save first frame for thumbnail purposes
+        
         while True:
             elapsed_time = (cv2.getTickCount() - start_time) / cv2.getTickFrequency()
             if elapsed_time >= duration:
                 break
             # Read a frame from the camera/video file
             img_frame, gray_frame = self.read_frame()
-            resize_frame = cv2.resize(img_frame,(640,480))
+            resize_frame = cv2.resize(img_frame,(self.desired_width, self.desired_height))
             
             # Write the frame to the video file
             out.write(resize_frame)
+            
+            if first_run:
+                cv2.imwrite(first_frame_path, resize_frame)
+                
+            first_run = False
         
         out.release()
         
@@ -80,10 +92,12 @@ class Camera:
             return False
             
     def set_properties(self):
-        self.cam.set(cv2.CAP_PROP_FPS, 10)
-        self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
+        self.cam.set(cv2.CAP_PROP_FPS, 25)
+        self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, self.desired_width)
+        self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, self.desired_height)
         self.cam.set(cv2.CAP_PROP_BUFFERSIZE, 10)
+
         
     def get_min_face_size(self):
         # Define min window size to be recognized as a face

@@ -3,7 +3,7 @@ import os
 from urllib.parse import quote
 
 # Get HaarCascade configuration
-faceCascade = cv2.CascadeClassifier('/home/admin/Desktop/IoT_Project/Face-Recognition-using-Raspberry-Pi/haarcascade_frontalface_default.xml')
+faceCascade = cv2.CascadeClassifier('/home/admin/Pi-Sensor-Hub-with-Facial-Recognition/Face-Recognition/haarcascade_frontalface_default.xml')
 
 # Replace 'your_password' with your actual password
 password = '#Strongether1'
@@ -20,11 +20,13 @@ cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"H264"))
 
 
 # Set the frame rate to 10 FPS
-cap.set(cv2.CAP_PROP_FPS, 10)
+cap.set(cv2.CAP_PROP_FPS, 1)
 
+desired_width = 1280  # Increase width for higher resolution
+desired_height = int(desired_width * 9 / 16)  # Calculate height for 16:9 aspect ratio
 # Set a lower resolution
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, desired_width)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, desired_height)
 cap.set(cv2.CAP_PROP_BUFFERSIZE, 10)
 
 # For each person, enter one numeric face id
@@ -46,7 +48,7 @@ while(True):
     k = cv2.waitKey(100) & 0xff # Press 'ESC' for exiting video
     if k == 27:
         break
-    elif count >= 30: # Take 30 face sample and stop video
+    elif count >= 100: # Take 30 face sample and stop video
          break
 # Do a bit of cleanup
 print("\n [INFO] Exiting Program and cleanup stuff")
